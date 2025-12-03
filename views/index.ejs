@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+
+    <!-- 新規投稿フォーム -->
+    <h2>新しいブログを投稿</h2>
+    <form action="/create" method="post">
+      <p>タイトル：<input type="text" name="title" required></p>
+      <p>投稿日：<input type="date" name="postedAt" required></p>
+      <p>内容：</p>
+      <textarea name="content" rows="4" cols="50" required></textarea><br>
+      <button type="submit">投稿する</button>
+    </form>
+
+    <hr>
+
+    <!-- 検索フォーム -->
+    <h2>検索</h2>
+    <form action="/search" method="post">
+      <input type="text" name="keyword" placeholder="キーワード" required>
+      <button type="submit">検索する</button>
+    </form>
+
+    <hr>
+
+    <!-- 投稿一覧 -->
+    <h2>投稿一覧</h2>
+    <% if (posts.length === 0) { %>
+      <p>まだ投稿がありません。</p>
+    <% } else { %>
+      <ul>
+        <% posts.forEach(post => { %>
+          <li>
+            <h3><%= post.title %></h3>
+            <p>投稿日：<%= post.postedAt.toISOString().slice(0,10) %></p>
+            <pre><%= post.content %></pre>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+  </body>
+</html>

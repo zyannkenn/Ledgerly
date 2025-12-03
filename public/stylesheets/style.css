@@ -1,0 +1,120 @@
+body {
+  padding: 40px 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+    "Segoe UI", Arial, "Lucida Grande", sans-serif;
+  background: #f5f5f7;
+  color: #333;
+}
+
+/* ページ全体の幅を中央に寄せる */
+body > * {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 32px;
+  letter-spacing: 0.05em;
+}
+
+h2 {
+  margin-top: 32px;
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+/* フォームをカードっぽく */
+form {
+  background: #ffffff;
+  padding: 20px 18px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+}
+
+p {
+  margin: 8px 0;
+}
+
+/* 入力系 */
+input[type="text"],
+input[type="date"],
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  margin-top: 4px;
+  border: 1px solid #d0d0d7;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* ボタン */
+button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  background: #0070f3;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0059c3;
+}
+
+/* リンク */
+a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 投稿一覧 */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  background: #ffffff;
+  padding: 16px 18px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ul li h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+
+ul li p {
+  margin: 4px 0 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+ul li pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: inherit;
+}
