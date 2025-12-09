@@ -1,0 +1,25 @@
+<%-
+  include("layout", {
+    title: "新規登録",
+    body: `
+      <section class="auth">
+        <h2>新規登録</h2>
+        ${error ? `<p class="error">${error}</p>` : ""}
+
+        <form method="POST" action="/register" class="form">
+          <label>
+            メールアドレス
+            <input type="email" name="email" required />
+          </label>
+          <label>
+            パスワード
+            <input type="password" name="password" required minlength="6" />
+          </label>
+          <button type="submit">登録</button>
+        </form>
+
+        <p>すでにアカウントをお持ちの方は <a href="/login">ログイン</a></p>
+      </section>
+    `
+  })
+%>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= title || "収支管理アプリ" %></title>
+
+  <!-- ここが超重要：public/stylesheets/style.css に合わせる -->
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>収支管理アプリ</h1>
+    <% if (currentUserId) { %>
+      <nav>
+        <a href="/items">一覧</a>
+        <a href="/items/new">新規作成</a>
+        <a href="/logout">ログアウト</a>
+      </nav>
+    <% } %>
+  </header>
+
+  <main class="main">
+    <%- body %>
+  </main>
+</body>
+</html>

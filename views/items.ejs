@@ -1,0 +1,85 @@
+<%-
+  include("layout", {
+    title: "収支一覧",
+    body: `
+      <section class="summary">
+        <div>総収入: <span class="income">¥${summary.totalIncome}</span></div>
+        <div>総支出: <span class="expense">¥${summary.totalExpense}</span></div>
+        <div>残高: <span class="balance">¥${summary.balance}</span></div>
+      </section>
+
+      <section class="filters">
+        <form id="filterForm" method="GET" action="/items" class="filter-form">
+          <label>
+            区分:
+            <select name="type">
+              <option value="all" ${filters.typeFilter === "all" ? "selected" : ""}>すべて</option>
+              <option value="income" ${filters.typeFilter === "income" ? "selected" : ""}>収入のみ</option>
+              <option value="expense" ${filters.typeFilter === "expense" ? "selected" : ""}>支出のみ</option>
+            </select>
+          </label>
+
+          <label>
+            開始日:
+            <input type="date" name="startDate" value="${filters.startDate || ""}" />
+          </label>
+
+          <label>
+            終了日:
+            <input type="date" name="endDate" value="${filters.endDate || ""}" />
+          </label>
+
+          <button type="submit">フィルタ</button>
+          <a href="/items" class="btn-reset">リセット</a>
+        </form>
+      </section>
+
+      <section class="list">
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th>日付</th>
+              <th>項目名</th>
+              <th>金額</th>
+              <th>区分</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${
+              items.length === 0
+                ? `<tr><td colspan="5">データがありません</td></tr>`
+                : items
+                    .map((item) => {
+                      const date = item.createdAt.toISOString().slice(0, 10);
+                      return `
+                        <tr>
+                          <td>${date}</td>
+                          <td>
+                            <a href="/items/detail/view?id=${item.id}">
+                              ${item.event || "(無題)"}
+                            </a>
+                          </td>
+                          <td class="${item.type === "income" ? "income" : "expense"}">
+                            ¥${item.amount}
+                          </td>
+                          <td>${item.type === "income" ? "収入" : "支出"}</td>
+                          <td>
+                            <a href="/items/${item.id}/edit">編集</a>
+                            <form method="POST" action="/items/${item.id}?_method=DELETE" class="inline-form" onsubmit="return confirm('削除しますか？');">
+                              <button type="submit">削除</button>
+                            </form>
+                          </td>
+                        </tr>
+                      `;
+                    })
+                    .join("")
+            }
+          </tbody>
+        </table>
+      </section>
+
+      <script src="/js/items.js"></script>
+    `
+  })
+%>

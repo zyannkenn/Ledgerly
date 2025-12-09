@@ -1,0 +1,144 @@
+<%
+  const pageTitle =
+    mode === "create"
+      ? "新規収支"
+      : mode === "edit"
+      ? "収支編集"
+      : "収支詳細";
+
+  const headingText =
+    mode === "create"
+      ? "新規収支の作成"
+      : mode === "edit"
+      ? "収支の編集"
+      : "収支の詳細";
+
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const dateValue =
+    item && item.createdAt
+      ? item.createdAt.toISOString().slice(0, 10)
+      : todayStr;
+
+  const isView = mode === "view";
+%>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= pageTitle %></title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>収支管理アプリ</h1>
+    <nav>
+      <a href="/items">一覧</a>
+      <% if (!isView) { %>
+        <a href="/items/new">新規作成</a>
+      <% } %>
+      <a href="/logout">ログアウト</a>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="detail">
+      <h2><%= headingText %></h2>
+
+      <% if (isView) { %>
+        <div class="detail-view">
+          <p><strong>ID:</strong> <%= item.id %></p>
+          <p><strong>日付:</strong> <%= dateValue %></p>
+          <p><strong>項目名:</strong> <%= item.event || "(無題)" %></p>
+          <p><strong>金額:</strong> ¥<%= item.amount %></p>
+          <p><strong>区分:</strong> <%= item.type === "income" ? "収入" : "支出" %></p>
+          <p><strong>メモ:</strong><br />
+            <%= item.memo ? item.memo.replace(/\n/g, "<br>") : "（なし）" %>
+          </p>
+          <p class="detail-actions">
+            <a href="/items/<%= item.id %>/edit">編集</a>
+            <a href="/items">一覧に戻る</a>
+          </p>
+        </div>
+      <% } else { %>
+        <form
+          class="form"
+          method="POST"
+          action="<%= mode === "create" ? "/items" : "/items/" + item.id + "?_method=PUT" %>"
+        >
+          <label>
+            日付
+            <input
+              type="date"
+              name="createdAt"
+              value="<%= dateValue %>"
+            />
+          </label>
+
+          <label class="form-group">
+            <span>カテゴリ（項目名）</span>
+            <!-- 既存の項目から選んでもいいし、新しい名前を入力しても OK -->
+            <input
+              list="categoryOptions"
+              type="text"
+              name="event"
+              value="<%= item ? item.event : "" %>"
+              placeholder="例）食費・交通費・ドリンク など"
+              required
+            />
+            <datalist id="categoryOptions">
+              <% if (typeof categories !== "undefined" && categories && categories.length) { %>
+                <% categories.forEach(function (cat) { %>
+                  <% if (cat && cat.trim().length > 0) { %>
+                    <option value="<%= cat %>"></option>
+                  <% } %>
+                <% }); %>
+              <% } %>
+            </datalist>
+          </label>
+
+          <label>
+            金額（必須）
+            <input
+              type="number"
+              name="amount"
+              required
+              min="0"
+              value="<%= item ? item.amount : "" %>"
+            />
+          </label>
+
+          <label>
+            区分（必須）
+            <select name="type" required>
+              <option value="">選択してください</option>
+              <option
+                value="income"
+                <%= item && item.type === "income" ? "selected" : "" %>
+              >
+                収入
+              </option>
+              <option
+                value="expense"
+                <%= item && item.type === "expense" ? "selected" : "" %>
+              >
+                支出
+              </option>
+            </select>
+          </label>
+
+          <label>
+            メモ
+            <textarea name="memo" rows="4"><%= item && item.memo ? item.memo : "" %></textarea>
+          </label>
+
+          <button type="submit">
+            <%= mode === "create" ? "作成" : "更新" %>
+          </button>
+          <a href="/items">キャンセル</a>
+        </form>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>
